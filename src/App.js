@@ -1,25 +1,36 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import dragons from './dragons';
+import Dragon from './Dragon';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      dragons: dragons
+    }
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <h1>Bilbo Baggins' Dragon Wagon Drag'n'Drop</h1>
+
+          <div className="container draggableSource">
+            {
+              this.state.dragons.map((dragon, i) => {
+                return (
+                 <Dragon id={i} character={dragon.character} title={dragon.title} imgPath={dragon.imgPath} />
+                )
+              })
+            }
+          </div>
+
+          {/* <div className="wagon droppable">
+            <span className="hobbit" role="img" aria-labelledby="hobbit" id="uniqueDropZone">👱🏻‍</span>
+            <span className="wagon" role="img" aria-labelledby="wagon" id="uniqueDropZone">🛷</span>
+          </div> */}
+          
       </div>
     );
   }

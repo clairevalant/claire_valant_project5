@@ -1,32 +1,105 @@
-.App {
-  text-align: center;
+html {
+    display: flex;
+    justify-content: center;
+    align-content: flex-start; 
+    font-family: 'lucida blackletter', cursive;
+    text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+.handle {
+   font-size: 50px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.container {
+    /* margin-top: 100px; */
+    position: relative;
+    height: 70vh;
+    width: 70vw;
 }
 
-.App-link {
-  color: #61dafb;
+.dragon {
+    display: inline;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+svg {
+    width: 100px;
 }
+
+.flip {
+    transform: scale(-1,1);
+}
+
+.dragon:nth-child(1) {
+    fill: rgb(42, 107, 42);
+}
+
+.dragon:nth-child(2) {
+    fill: rgb(14, 14, 165);
+}
+
+.dragon:nth-child(3) {
+    fill: rgb(112, 8, 112);
+}
+
+.dragon:nth-child(5) {
+    fill: rgb(236, 0, 0);
+}
+
+.drop {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  animation: roll linear 5s alternate infinite;
+}
+
+.wagon {
+    display: inline;
+    /* position: absolute; */
+    /* bottom: 0;
+    right: 0;
+    animation: roll linear 5s alternate infinite; */
+}
+
+.hobbit {
+    display: inline;
+    /* position: absolute;
+    bottom: 0;
+    right: 80px;
+    animation: run linear 5s alternate infinite; */
+}
+
+@keyframes roll {
+      0% {
+          right:0;
+      }
+
+    25% {
+        right: 75%;
+    }
+
+    50%{
+        right: 15%; 
+    }
+
+      100% {
+          right:90%;
+      }
+}
+
+  /* @keyframes roll {
+      0% {
+          right:0px;
+      }
+
+    25% {
+        right: 370px;
+    }
+
+    50%{
+        right: 180px; 
+    }
+
+      100% {
+          right:580px;
+      }
+} */
