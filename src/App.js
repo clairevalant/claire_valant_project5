@@ -14,18 +14,28 @@ class App extends Component {
     this.state = {
       dragons: dragons,
       dragonCount: 0,
-      wagonCount: 0,
+      wagonCount: 1,
       bilboCount: 0,
       score: 0
     }
   }
 
+  buttonClick = () => {
+    this.setState({
+      dragonCount: 0,
+      wagonCount: 1,
+      bilboCount: 0,
+      score: 0
+    })
+  }
+
   // increment firebase number for whichever element was clicked
-  handleClick = (e) => {
+  handleClick = (e) => {    
     // which item was clicked? which one should we update? the id of the item is passed in e (event)
-    const id = e.target.id;
-    console.log(id);
-    
+    const id = e.target.id;    
+    console.log('this was clicked:', id);
+
+
     // choose the corrrect firebase node to update
     const updateFBCount = firebase.database().ref(`/${id}Count`);
 
@@ -47,13 +57,18 @@ class App extends Component {
 
     // let the counts in firebase be the current state plus one, then when those changes mount we can upsate the current state
     updateFBCount.set(currentState);
-    setScore(id);
+    this.setScore(id);
   }
 
-  // setScore = (id) = {
-  //   console.log(id);
-    
-  // }
+  setScore = (id) => {
+    const wagonScore = this.state.wagonCount;
+    const bilboScore = this.state.bilboCount;
+
+    const calcScore = (50 * wagonScore) - (10 * bilboScore);
+
+    const updateFBCount = firebase.database().ref("/score");
+    updateFBCount.set(calcScore);
+  }
 
   // attach event listener to firebase, set the state to what is in firebase
   componentDidMount() {
@@ -89,6 +104,7 @@ class App extends Component {
 
           <section>
             <p>Your score is: {this.state.score}</p>
+            <button onClick={this.buttonClick}>Play again?</button>
           </section>
           
       </div>
