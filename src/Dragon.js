@@ -3,7 +3,7 @@ import React from 'react';
 
 const Dragon = (props) => {
     return (
-        <p onClick={props.onClick} className="dragon character" id="dragon">{props.character}</p>
+        <p onClick={props.onClick} draggable="true"  className="dragon character" id="dragon">{props.character}</p>
     )
 }
 
