@@ -8,7 +8,7 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
 
 html {
     background: linear-gradient(to bottom, rgb(145, 149, 199), rgb(12, 46, 12));
-    height: 100%;
+    min-height: 100vh;
     background-repeat: no-repeat;
     display: flex;
     justify-content: center;
@@ -21,6 +21,11 @@ html {
     font-weight: bolder;
     text-align: center;
     font-size: 62.5%;
+}
+
+img {
+    max-width: 60px;
+    min-width:28px;
 }
 
 body {
@@ -55,11 +60,21 @@ input {
 
 #username {
     margin-right:0;
+    min-width: 230px;
+}
+
+.username {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    min-width: 200px;
 }
 
 .score button,
 .score p {
-    margin: 0;
+    margin: 0 0 10px 0;
 }
 
 form button {
@@ -103,12 +118,7 @@ form {
     align-items: center;
 }
 
-.character {
-    font-size: 50px;
-}
-
 /* stretch: make opacity of dragons fade in and out ? */
-
 
 /* this doesnt work :( */
 .dropped {
@@ -149,12 +159,6 @@ form {
 
 /* Media queries */
 
-@media only screen and (max-width: 1330px) {
-     h1 {
-        font-size:3rem;
-    }
-}
-
 @media only screen and (max-width: 1010px) {
     .wrapper {
         width: 90vw;
@@ -163,13 +167,61 @@ form {
 
 @media only screen and (max-width: 880px){
     .dropzones {
-        /* animation: roll linear 3s alternate infinite; */
+        animation: roll linear 3s alternate infinite;
     }
 }
 
-@media only screen and (max-width: 905px) {
-  form {
-      flex-direction: column;
-      justify-content: flex-end;
-  }
+@media only screen and (max-width: 645px) {
+    p {
+        margin: 20px auto;
+    }
+
+    form {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    form button {
+        margin-right: 0;
+        margin-top: 0;
+    }
+}
+
+@media only screen and (max-width: 550px) {
+    .username{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    form {
+        height: 40vh;
+        align-items: flex-start;
+        justify-content: center;
+    }
+
+    form button {
+        margin-left: 0;
+    }
+
+    #username {
+        margin-left: 0;
+    }
+
+    @keyframes roll {
+    0% {
+        right: 0;
+    }
+
+    25% {
+        right: 68%;
+    }
+
+    50%{
+        right: 6%; 
+    }
+
+    100% {
+        right: 70%;
+    }
+}
 }
