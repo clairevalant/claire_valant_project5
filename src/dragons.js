@@ -2,27 +2,27 @@ const dragons = [
     {
         character: "🐉",
         title: "smaug1",
-        imgPath: ""
+        imgPath: "assets/dragon1.png"
     },
     {
         character: "🐲",
         title: "smaug2",
-        imgPath: ""
+        imgPath: "assets/dragon2.png"
     },
     {
         character: "🐉",
         title: "smaug3",
-        imgPath: ""
+        imgPath: "assets/dragon3.png"
     },
     {
         character: "🐲",
         title: "smaug4",
-        imgPath: ""
+        imgPath: "assets/dragon1.png"
     },
     {
         character: "🐉",
         title: "smaug5",
-        imgPath: ""
+        imgPath: "assets/dragon5.png"
     }  
 ]
 

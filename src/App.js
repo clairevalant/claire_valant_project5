@@ -16,6 +16,7 @@ class App extends Component {
       dragonCount: 0,
       wagonCount: 1,
       bilboCount: 0,
+      username: "",
       score: 0
     }
   }
@@ -118,9 +119,18 @@ class App extends Component {
     })
   }
 
+  handleChange = (e) => {
+    console.log(e.target.value);
+    this.setState({
+      username: e.target.value
+    })
+  }
+
   formSubmit = (e) => {
     e.preventDefault();
     console.log("form submitted");
+    const username = firebase.database().ref(`/${this.state.username}`)
+    username.set(this.state.username)
   }
 
   // attach event listener to firebase, set the state to what is in firebase
@@ -138,34 +148,45 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1>Bilbo Baggins' Dragon Wagon Drag'n'Drop</h1>
+        <div className="wrapper">
+          <h1>Bilbo Baggins' Dragon Wagon Drag'n'Drop</h1>
 
-        <form action="">
-          <label htmlFor="userName">Please enter your name:</label>
-          <input type="text" name="userName" id="userName" placeholder="Frodo111"/>
-          <button onClick={this.formSubmit}>Set username</button>
-        </form>
+          <form action="" onSubmit={this.formSubmit}>
+            <label htmlFor="username">Please enter your name:</label>
+            <input type="text"
+              name="username"
+              id="username"
+              placeholder="Frodo111"
+              value={this.state.username}
+              onChange={this.handleChange} />
+            <button>Set username</button>
+          </form>
 
-        <div className="container">
-          {
-            this.state.dragons.map((dragon, i) => {
-              return (
-                <Dragon key={i} onClick={this.handleClick} onDragStart={this.dragStart} onDragEnd={this.dragEnd} dragDone={this.dragDone} character={dragon.character} title={dragon.title} imgPath={dragon.imgPath} />
-              )
-            })
-          }
+          <div className="container">
+            <div className="dragonBox">
+              {
+                this.state.dragons.map((dragon, i) => {
+                  return (
+                    <Dragon key={i} onClick={this.handleClick} onDragStart={this.dragStart} onDragEnd={this.dragEnd} dragDone={this.dragDone} character={dragon.character} title={dragon.title} imgPath={dragon.imgPath} />
+                  )
+                })
+              }
+            </div>
 
-          <div className="dropzones">
-            <span onDragOver={this.allowDrop} onDrop={this.bilboDrop} onClick={this.handleClick} className="bilbo character" role="img" aria-labelledby="bilbo" id="bilbo">👱🏻‍</span>
-            <span onDragOver={this.allowDrop} onDrop={this.wagonDrop} onClick={this.handleClick} className="wagon character" role="img" aria-labelledby="wagon" id="wagon">🛷</span>
+            <div className="dropzones">
+              <img src="assets/hobbit.png" alt="Bilbo the Hobbit" onDragOver={this.allowDrop} onDrop={this.bilboDrop} onClick={this.handleClick} className="bilbo character" role="img" aria-labelledby="bilbo" id="bilbo"/>
+              <span onDragOver={this.allowDrop} onDrop={this.wagonDrop} onClick={this.handleClick} className="wagon character" role="img" aria-labelledby="wagon" id="wagon">🛷</span>
+            </div>
           </div>
-        </div>
 
-        <section className="score">
-          <p>Your score is: {this.state.score}</p>
-          <button onClick={this.buttonClick}>Play again?</button>
-        </section>
+          <section className="score">
+            <p>Your score is: {this.state.score}</p>
+            <button onClick={this.buttonClick}>Play again?</button>
+          </section>
+
         
+        
+        </div>
       </div>
     );
   }
