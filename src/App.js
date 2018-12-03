@@ -24,23 +24,92 @@ class App extends Component {
     e.preventDefault();
   }
 
-  drag = (e) => {
-    e.dataTransfer.setData("text", e.target.id);
+  dragStart = (e) => {
+    e.dataTransfer.dropEffect = "move";
+    e.dataTransfer.setData("text/plain", e.target.id);
   }
+
+  dragEnd = (e) => {
+      console.log("this is the drag end ID",e.target.id);
+      return true;
+    }
 
   bilboDrop = (e) => {
     e.preventDefault();
-    var drgn = e.dataTransfer.setData("text");
-    e.target.appendChild(document.getElementById(drgn));
+    console.log("dropped in hobbit");
+
+    // get the current value of the corresponding state item so we can add one to it
+    let currentState = this.state.bilboCount;
+
+    // choose the corrrect firebase node to update
+    const updateFBCount = firebase.database().ref("/bilboCount");
+    currentState++;
+
+    // let the counts in firebase be the current state plus one, then when those changes mount we can update the current state
+    updateFBCount.set(currentState);
+
+    // set amount to adjust score by
+    const adjustment = -10;
+
+    // once the new counts mount from onClick, set the score
+    this.setScore(adjustment);
   }
 
   wagonDrop = (e) => {
     e.preventDefault();
-    var drgn = e.dataTransfer.setData("text");
-    e.target.appendChild(document.getElementById(drgn));
+    console.log("dropped in", e.target.id);
+
+    // get the current value of the corresponding state item so we can add one to it
+    let currentState = this.state.wagonCount;
+
+    // choose the corrrect firebase node to update
+    const updateFBCount = firebase.database().ref("/wagonCount");
+    currentState++;
+
+    // let the counts in firebase be the current state plus one, then when those changes mount we can update the current state
+    updateFBCount.set(currentState);
+
+    // set amount to adjust score by
+    const adjustment = 50;
+
+    // once the new counts mount from onClick, set the score
+    this.setScore(adjustment);
   }
 
+  setScore = (adj) => {
+    // get current score from state
+    let score = this.state.score;
+
+    // calculate new score
+    score = score + adj;
+
+    // update firebase
+    const fbScore = firebase.database().ref("/score");
+    fbScore.set(score);
+
+    // update state from firebase
+    dbRef.on("value", (snapshot) => {
+      this.setState({
+        score: snapshot.val().score
+      })
+    });
+
+  }
+
+  // reset on button click
   buttonClick = () => {
+    // reset firebase
+    const wagonFBCount = firebase.database().ref("/wagonCount");
+    const bilboFBCount = firebase.database().ref("/bilboCount");
+    const dragonFBCount = firebase.database().ref(`/dragonCount`);
+    const scoreFBCount = firebase.database().ref(`score`);
+
+    wagonFBCount.set(1);
+    bilboFBCount.set(0);
+    dragonFBCount.set(0);
+    scoreFBCount.set(0);
+
+    // reset state
     this.setState({
       dragonCount: 0,
       wagonCount: 1,
@@ -54,48 +123,6 @@ class App extends Component {
     console.log("form submitted");
   }
 
-  // increment firebase number for whichever element was clicked
-  handleClick = (e) => {    
-    // which item was clicked? which one should we update? the id of the item is passed in e (event)
-    const id = e.target.id;    
-
-    // choose the corrrect firebase node to update
-    const updateFBCount = firebase.database().ref(`/${id}Count`);
-
-    // get the current value of the corresponding state item so we can add one to it
-    // TEMPORARY - can you just put a variable in this.state.{thing} ?? stack overflow says no lol
-    let currentState;
-
-    if (id === "dragon") {
-      currentState = this.state.dragonCount;
-    } else if (id === "wagon") {
-      currentState = this.state.wagonCount;
-    } else {
-      currentState = this.state.bilboCount;
-    }
-
-    currentState++;
-  
-    // let the counts in firebase be the current state plus one, then when those changes mount we can update the current state
-    updateFBCount.set(currentState);
-
-    // only update score on click of wagon and bilbo TEMPORARY?
-    if (id === "wagon" || id === "bilbo") {
-      this.setScore(id);
-    }
-  }
-
-  // calculate the new score
-  setScore = (id) => {
-    const wagonFbScore = firebase.database().ref(`/wagonCount`);
-    const bilboFbScore = firebase.database().ref(`/bilboCount`);
-
-    const calcScore = (50 * wagonFbScore) - (10 * bilboFbScore);
-
-    const fbScore = firebase.database().ref("/score");
-    fbScore.set(calcScore);
-  }
-
   // attach event listener to firebase, set the state to what is in firebase
   componentDidMount() {
     dbRef.on("value", (snapshot) => {
@@ -103,9 +130,9 @@ class App extends Component {
         dragonCount: snapshot.val().dragonCount,
         wagonCount: snapshot.val().wagonCount,
         bilboCount: snapshot.val().bilboCount,
-        score: snapshot.val().score
+        // score: snapshot.val().score
       })
-    })
+    });
   }
 
   render() {
@@ -123,7 +150,7 @@ class App extends Component {
           {
             this.state.dragons.map((dragon, i) => {
               return (
-                <Dragon onClick={this.handleClick} key={i} character={dragon.character} title={dragon.title} imgPath={dragon.imgPath} />
+                <Dragon key={i} onClick={this.handleClick} onDragStart={this.dragStart} onDragEnd={this.dragEnd} dragDone={this.dragDone} character={dragon.character} title={dragon.title} imgPath={dragon.imgPath} />
               )
             })
           }
@@ -134,7 +161,7 @@ class App extends Component {
           </div>
         </div>
 
-        <section>
+        <section className="score">
           <p>Your score is: {this.state.score}</p>
           <button onClick={this.buttonClick}>Play again?</button>
         </section>

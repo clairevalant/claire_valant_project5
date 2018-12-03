@@ -3,7 +3,7 @@ import React from 'react';
 
 const Dragon = (props) => {
     return (
-        <p onClick={props.onClick} draggable="true"  className="dragon character" id="dragon">{props.character}</p>
+        <p onClick={props.onClick} onDragStart={props.onDragStart} draggable="true" className={props.onDragEnd ? "dragon character" : "dragon character dropped"} id={props.title} >{props.character}</p>
     )
 }
 

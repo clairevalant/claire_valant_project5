@@ -1,13 +1,29 @@
 html {
+    background: linear-gradient(to bottom, rgb(183, 188, 252), rgb(12, 46, 12));
+    height: 100vh;
+    background-repeat: no-repeat;
     display: flex;
     justify-content: center;
     align-content: flex-start; 
     font-family: 'lucida blackletter', cursive;
+    color: white;
+    letter-spacing: 2px;
+    font-weight: bolder;
     text-align: center;
+    font-size: 62.5%;
+}
+
+h1 {
+    font-size: 3.2rem;
+}
+
+body {
+    font-size: 2rem;
 }
 
 .container {
-    /* margin-top: 100px; */
+    margin-top: 30px;
+    background: rgba(220, 240, 255, 0.76);
     position: relative;
     height: 70vh;
     width: 70vw;
@@ -27,43 +43,39 @@ html {
     transform: scale(-1,1);
 }
 
-.dragon:nth-child(1) {
+#smaug1 {
     fill: rgb(42, 107, 42);
 }
 
-.dragon:nth-child(2) {
+#smaug2 {
     fill: rgb(14, 14, 165);
 }
 
-.dragon:nth-child(3) {
+#smaug3 {
     fill: rgb(112, 8, 112);
 }
 
-.dragon:nth-child(5) {
+#smaug5 {
     fill: rgb(236, 0, 0);
 }
 
-.drop {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  animation: roll linear 5s alternate infinite;
+
+
+.dropped {
+    visibility: hidden;
 }
 
-.wagon {
+.wagon,
+.bilbo {
     display: inline;
+}
+
+.dropzones {
+    display:flex;
     position: absolute;
     bottom: 0;
     right: 0;
     /* animation: roll linear 5s alternate infinite; */
-}
-
-.bilbo {
-    display: inline;
-    position: absolute;
-    bottom: 0;
-    right: 7%;
-    /* animation: run linear 5s alternate infinite; */
 }
 
 @keyframes run {
