@@ -1,28 +1,36 @@
+import dragonImg1 from "./assets/dragon1.png";
+import dragonImg2 from "./assets/dragon2.png";
+import dragonImg3 from "./assets/dragon3.png";
+import dragonImg4 from "./assets/dragon4.png";
+
+
+
 const dragons = [
+
     {
         character: "🐉",
         title: "smaug1",
-        imgPath: "assets/dragon1.png"
+        imgPath: dragonImg1
     },
     {
         character: "🐲",
         title: "smaug2",
-        imgPath: "assets/dragon2.png"
+        imgPath: dragonImg2
     },
     {
         character: "🐉",
         title: "smaug3",
-        imgPath: "assets/dragon3.png"
+        imgPath: dragonImg3
     },
     {
         character: "🐲",
         title: "smaug4",
-        imgPath: "assets/dragon1.png"
+        imgPath: dragonImg1
     },
     {
         character: "🐉",
         title: "smaug5",
-        imgPath: "assets/dragon5.png"
+        imgPath: dragonImg4
     }  
 ]
 

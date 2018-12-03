@@ -3,6 +3,8 @@ import './App.css';
 import firebase from "./firebase";
 import dragons from './dragons';
 import Dragon from './Dragon';
+import bilbo from "./assets/hobbit.png";
+import wagon from "./assets/wagon.png"
 
 // our reference to the root of the database
 let dbRef= firebase.database().ref();
@@ -31,13 +33,11 @@ class App extends Component {
   }
 
   dragEnd = (e) => {
-      console.log("this is the drag end ID",e.target.id);
       return true;
     }
 
   bilboDrop = (e) => {
     e.preventDefault();
-    console.log("dropped in hobbit");
 
     // get the current value of the corresponding state item so we can add one to it
     let currentState = this.state.bilboCount;
@@ -58,7 +58,6 @@ class App extends Component {
 
   wagonDrop = (e) => {
     e.preventDefault();
-    console.log("dropped in", e.target.id);
 
     // get the current value of the corresponding state item so we can add one to it
     let currentState = this.state.wagonCount;
@@ -120,7 +119,6 @@ class App extends Component {
   }
 
   handleChange = (e) => {
-    console.log(e.target.value);
     this.setState({
       username: e.target.value
     })
@@ -128,7 +126,6 @@ class App extends Component {
 
   formSubmit = (e) => {
     e.preventDefault();
-    console.log("form submitted");
     const username = firebase.database().ref(`/${this.state.username}`)
     username.set(this.state.username)
   }
@@ -140,7 +137,6 @@ class App extends Component {
         dragonCount: snapshot.val().dragonCount,
         wagonCount: snapshot.val().wagonCount,
         bilboCount: snapshot.val().bilboCount,
-        // score: snapshot.val().score
       })
     });
   }
@@ -150,16 +146,19 @@ class App extends Component {
       <div className="App">
         <div className="wrapper">
           <h1>Bilbo Baggins' Dragon Wagon Drag'n'Drop</h1>
+          <p>Drag dragons into Baggin's Dragon Wagon for points!</p>
 
           <form action="" onSubmit={this.formSubmit}>
-            <label htmlFor="username">Please enter your name:</label>
-            <input type="text"
-              name="username"
-              id="username"
-              placeholder="Frodo111"
-              value={this.state.username}
-              onChange={this.handleChange} />
-            <button>Set username</button>
+            <div className="username">
+              <label htmlFor="username">Username:</label>
+              <input type="text"
+                name="username"
+                id="username"
+                placeholder="Frodo111"
+                value={this.state.username}
+                onChange={this.handleChange} />
+            </div>
+            <button type="submit">Set username</button>
           </form>
 
           <div className="container">
@@ -174,8 +173,8 @@ class App extends Component {
             </div>
 
             <div className="dropzones">
-              <img src="assets/hobbit.png" alt="Bilbo the Hobbit" onDragOver={this.allowDrop} onDrop={this.bilboDrop} onClick={this.handleClick} className="bilbo character" role="img" aria-labelledby="bilbo" id="bilbo"/>
-              <span onDragOver={this.allowDrop} onDrop={this.wagonDrop} onClick={this.handleClick} className="wagon character" role="img" aria-labelledby="wagon" id="wagon">🛷</span>
+              <img src={bilbo} alt="Bilbo the Hobbit." onDragOver={this.allowDrop} onDrop={this.bilboDrop} onClick={this.handleClick} className="bilbo character" id="bilbo"/>
+              <img src={wagon} alt="Bilbo's dragon wagon." onDragOver={this.allowDrop} onDrop={this.wagonDrop} onClick={this.handleClick} className="wagon character" role="img" aria-labelledby="wagon" id="wagon"/>
             </div>
           </div>
 
